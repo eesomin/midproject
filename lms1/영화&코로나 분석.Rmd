@@ -1,0 +1,68 @@
+---
+title: "영화관람객&코로나 분석"
+author: "이소민"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r}
+library(dplyr)
+library(moonBook)
+
+### 데이터 불러오기
+covid <- read.csv("C:/sm/mid_project/data/연도별코로나확진자수.csv")
+covid <- covid[c(2:4)]  # 인덱스 제거(필요한 것만)
+View(covid)
+
+movie <- read.csv("C:/sm/mid_project/data/연도별영화관객수.csv")
+movie <- movie[c(2,3,5)]  # 인덱스 및 매출액 제외(필요한 것만)
+View(movie)
+
+covid.1 <- covid
+movie.1 <- movie
+```
+
+
+# 분석 1
+# H0: 연도별로 영화 관람객 수에 차이가 없다
+# H1: 연도별로 영화 관람객 수에 차이가 있다
+```{r}
+str(movie.1)
+# 연도를 범주형으로 변환
+movie.1$year <- factor(movie.1$year)   
+
+# 정규성 검정 - 만족 x
+out <- aov(m_count ~ year, data=movie.1) 
+shapiro.test(resid(out))  
+
+# 비모수검정 - 차이가 있다
+kruskal.test(m_count ~ year, data=movie.1) 
+
+# 사후검정 - (2019-2020)과 (2019-2021)은 차이가 있다
+library(pgirmess)
+kruskalmc(m_count ~ year, data=movie.1)
+
+```
+
+# 분석 2
+# H0 : 코로나 확진자 수와 영화 관람객 수가 상관이 없다
+# H1 : 코로나 확진자 수와 영화 관람객 수가 상관이 있다
+
+```{r}
+# 코로나가 2월부터 시작돼서 일단 2020년 1월 영화 데이터 제거
+movie.2 <- movie %>% filter((year=="2020")|(year=="2021"))
+movie.2 <- movie.2[-1,]  
+View(movie.2)
+cbind(covid.1,movie.2)
+
+data <- merge(covid.1,movie.2, by=c("year","month"))
+data <- data %>% group_by(year) %>% arrange(year,month)
+View(data)
+
+# 내일 이어서 할게요!
+```
+
+
+
+
+
+
