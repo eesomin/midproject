@@ -455,6 +455,17 @@ cat(std1, std2)</code></pre>
 <pre class="r"><code>effective_size &lt;- abs(mean1-mean2)/sqrt((std1^2+std2^2)/2)
 effective_size</code></pre>
 <pre><code>## [1] 5.633058</code></pre>
+<pre class="r"><code>pwr.t.test(d=effective_size, sig.level = .05, power = .8 , type = &quot;two.sample&quot;, alternative = &quot;two.sided&quot;)</code></pre>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 2.003109
+##               d = 5.633058
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
 </div>
