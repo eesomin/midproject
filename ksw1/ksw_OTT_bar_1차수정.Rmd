@@ -1,0 +1,447 @@
+---
+title: "연도별 OTT 시청인구의 비율 비교"
+author: "김선우"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# 주제: 연도별 OTT 시청인구 비율의 비교
+
+## 0. 출처 
+
+  - https://stat.kisdi.re.kr/kor/tblInfo/TblInfoList2.html?vw_cd=MT_ETITLE&siteGb=SITE001
+  - 미디어통계포털 / KISDISTAT - 최근 3개월 OTT서비스 이용 경험여부
+  - 미디어통계포털 / KISDISTAT - OTT유료결제_이용여부
+
+
+## 1. 데이터 파일 불러오기
+```{r warning = FALSE, message = FALSE}
+mydata <- read.csv('C:/Kimsunwoo/teamprojectdata/ksw/ott.csv', header=T)
+View(mydata)
+```
+
+## 2. 패키지 준비
+```{r warning = FALSE, message = FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(readxl)
+library(reshape2)
+library(gridExtra)
+
+```
+
+## 3. 전처리
+
+### (1) 컬럼 이름 변경
+```{r warning = FALSE, message = FALSE}
+### 컬럼에 무엇이 이름으로 되어 있는지 몇개를 불러와 확인
+mydata[mydata$구분별.2.=='남',]
+mydata[mydata$구분별.2.=='여',]
+
+### 원래 데이터를 복사해서 새 데이터 만들기
+mydata1 <- mydata
+names(mydata1)
+
+### 각 컬럼을 카테고리와 연도별로 나눠서 새로 이름을 지음
+
+mydata1<-rename(mydata1, cat1=구분별.1., cat2=구분별.2., 총인구.2019=X2019, 시청경험_있음.2019=X2019.1, 시청경험_없음.2019=X2019.2, 총인구.2020=X2020, 시청경험_있음.2020=X2020.1, 시청경험_없음.2020=X2020.2, 총인구.2021=X2021, 시청경험_있음.2021=X2021.1, 시청경험_없음.2021=X2021.2)
+mydata1 <- mydata1[-1,]
+
+summary(mydata1)
+```
+
+### (2) 변수명 처리
+
+```{r warning = FALSE, message = FALSE}
+### 각 조건들을 같은 범주 내에 있는 것들끼리 묶어서 하나의 변수로 만들기
+
+sex <- subset(mydata1, cat1 == '성별')
+age <- subset(mydata1, cat1 == '연령')
+income <- subset(mydata1, cat1 == '월평균소득')
+school <- subset(mydata1, cat1 == '학력1')
+region <- subset(mydata1, cat1 == '지역')
+region.1 <- subset(mydata1, cat1 == '지역구분2')
+job.wide <- subset(mydata1, cat1 == '종사상지위')
+job.narrow <- subset(mydata1, cat1 == '상세직업')
+house <- subset(mydata1, cat1 == '주택형태')
+family.1 <- subset(mydata1, cat1 == '가족구성')
+family.2 <- subset(mydata1, cat1 == '가구원수')
+family.3 <- subset(mydata1, cat1 == '가구주와의관계')
+```
+
+## 4. EDA
+
+### (1) 남자와 여자 년도별 OTT시청 비율 증가량 비교
+
+#### 1) Preprocessing
+
+```{r warning = FALSE, message = FALSE}
+### 남자와 여자 각각 변수 지정
+
+man <- subset(mydata1, cat2 == '남')
+woman <- subset(mydata1, cat2 == '여')
+
+### 남자와 여자를 각각 long 타입으로 변경
+
+man1 <- man %>% select(시청경험_있음.2019, 시청경험_있음.2020, 시청경험_있음.2021)
+man1
+woman1 <- woman %>% select(시청경험_있음.2019, 시청경험_있음.2020, 시청경험_있음.2021)
+woman1
+
+long.man <- man1 %>% gather(key = years, value = pop)
+long.man
+
+long.woman <- woman1 %>% gather(key = years, value = pop)
+long.woman
+
+long.man$pop
+long.woman$pop
+```
+
+
+#### 2) 시각화
+
+```{r warning = FALSE, message = FALSE}
+
+### plot() 함수를 사용해 그래프로 나타내기 
+par(mfrow=c(1,2)) # 한번에 2개의 그래프를 표시
+plot(long.man$pop, type='o',xlab = 'man', ylab='percent',xlim=c(1,3), ylim=c(0,100),xaxt = "n", col='blue') # 남자 그래프 : 파란색 
+axis(1, at=1:3, labels = c('2019', '2020', '2021')) # 눈금 이름 연도로 바꿔주기
+
+plot(long.woman$pop, type='o',xlab = 'woman',ylab='percent',xlim=c(1,3), ylim=c(0,100),xaxt = "n",col='red') # 여자 그래프 : 빨간색
+axis(1, at=1:3, labels = c('2019', '2020', '2021')) # 눈금 이름 색 지정해주기
+```
+
+```{r warning = FALSE, message = FALSE}
+### 그래프 하나에 나타내주기
+
+par(mfrow=c(1,1))
+plot(long.man$pop, type='o',xlab = 'man', ylab='percent',xlim=c(1,3), ylim=c(0,100),xaxt = "n", col='blue',lty=1)
+lines(long.woman$pop, type='o',xlab = 'woman',ylab='percent',xlim=c(1,3), ylim=c(0,100),xaxt = "n",col='red',lty=1)
+axis(1, at=1:3, labels = c('2019', '2020', '2021'))
+
+legend("bottomright", c("남자시청비율", "여자시청비율"), 
+       col = c('blue','red'),lty=1)
+```
+
+#### 3) 결론
+
+  - 코로나가 시작된 2019년 이후로 남녀 모두 OTT시청 비율이 급격히 늘었다.
+  
+  
+### (2) 나이대에 따라 연도별 OTT시청 비율 증가량 비교 및 주 시청자의 나이대 추론
+
+#### 1) 전처리
+
+```{r warning = FALSE, message = FALSE}
+### 위에서 나눈 범주들 중 나이에 관한 age를 사용
+age
+age1 <- age %>% select(cat2, 시청경험_있음.2019, 시청경험_있음.2020, 시청경험_있음.2021)
+View(age1) # 새로 나이에 관한 범주의 복사본 만들어주기
+
+### 각 나이대별로 새로운 범주 만들어주기
+
+age10d <- subset(age1, cat2 == '만10대미만')
+age10to19 <- subset(age1, cat2 == '만10-19세')
+age20to29 <- subset(age1, cat2 == '만20-29세')
+age30to39 <- subset(age1, cat2 == '만30-39세')
+age40to49 <- subset(age1, cat2 == '만40-49세')
+age50to59 <- subset(age1, cat2 == '만50-59세')
+age60to69 <- subset(age1, cat2 == '만60-69세')
+age70u <- subset(age1, cat2 == '만70세이상')
+
+```
+
+
+```{r warning = FALSE, message = FALSE}
+### 나이대별 범주 전부 long 형태로 바꿔주고 필요없는 첫째 행 없애주기
+long.age10d <- age10d %>% gather(key = years, value = pop)
+long.age10d <-long.age10d[-1,]
+long.age10to19 <- age10to19 %>% gather(key = years, value = pop)
+long.age10to19 <- long.age10to19[-1,]
+long.age20to29 <- age20to29 %>% gather(key = years, value = pop)
+long.age20to29 <- long.age20to29[-1,]
+long.age30to39 <- age30to39 %>% gather(key = years, value = pop)
+long.age30to39 <- long.age30to39[-1,]
+long.age40to49 <- age40to49 %>% gather(key = years, value = pop)
+long.age40to49 <- long.age40to49[-1,]
+long.age50to59 <- age50to59 %>% gather(key = years, value = pop)
+long.age50to59 <- long.age50to59[-1,]
+long.age60to69 <- age60to69 %>% gather(key = years, value = pop)
+long.age60to69 <- long.age60to69[-1,]
+long.age70u <- age70u %>% gather(key = years, value = pop)
+long.age70u <- long.age70u[-1,]
+
+```
+
+#### 2) 시각화
+
+```{r warning = FALSE, message = FALSE}
+par(mfrow=c(1,1)) # 하나의 그래프만 나타내기
+plot(long.age10d$pop,type='o',xlim=c(1,4), ylim=c(0,100),xaxt = "n",xlab = 'year', ylab='percent',col=1) # 기본 그래프 10세미만으로 설정
+axis(1, at=1:3, labels = c('2019', '2020', '2021')) # 눈금 이름 연도로 바꿔주기
+lines(long.age10to19$pop,type='o',col=2,pch=0) # 겹
+lines(long.age20to29$pop,type='o',col=3,pch=2) # 쳐
+lines(long.age30to39$pop,type='o',col=4,pch=3) # 서
+lines(long.age40to49$pop,type='o',col=5,pch=4) # 그
+lines(long.age50to59$pop,type='o',col=6,pch=5) # 려
+lines(long.age60to69$pop,type='o',col=7,pch=6) # 주
+lines(long.age70u$pop,type='o',col=8,pch=7)    # 기
+
+
+### 그래프 우측 상단에 범례 만들어주기
+legend("topright", c("만10대 미만", "만10세-19세", "만20세-29세", "만30-39세", "만40-49세", "만50-59세", "만60-69세", "만70세 이상"), 
+       col = c(1,2,3,4,5,6,7,8),lty=1)
+
+```
+
+#### 3) 결론
+
+ - 만 10세에서 39세까지는 대부분의 사람들이 OTT서비스를 이용하고 있고 나이가 많아질수록 증가는 하는 경향은 있으나 비율은 다른 나이대에 비해 높지 않다.
+ - 이를 통해 OTT 서비스의 주 이용고객층은 만 10세에서 39세까지의 청소년, 청년, 중년층임을 알 수 있다.
+ 
+ 
+### (3) 가구원 수에 따라 OTT를 구독하는 비율이 차이가 날 것인가?
+
+- OTT서비스는 한 사람만 구독해도 4명까지 공유 가능한 시스템 덕에 가구원 수가 많을수록 구독 비율이 적어질 것이라 예상.
+
+#### 1) 데이터 파일 불러오기 
+
+```{r warning = FALSE, message = FALSE}
+### 이전 데이터파일과는 다른 데이터를 사용하니 새로 파일 불러와주기
+mydata2 <- read.csv('C:/Kimsunwoo/teamprojectdata/ksw/OTT유료결제_이용여부.csv', header=T)
+View(mydata2)
+```
+
+#### 2) 전처리
+```{r warning = FALSE, message = FALSE}
+### 새로운 복사 데이터 만들기
+moneydata <- mydata2
+names(moneydata)
+
+### 각 조건들을 같은 범주 내에 있는 것들끼리 묶어서 하나의 변수로 만들기
+moneydata<-rename(moneydata, cat1=구분별.1., cat2=구분별.2., 총인구.2019=X2019, 결제경험_있음.2019=X2019.1, 결제경험_없음.2019=X2019.2, 총인구.2020=X2020, 결제경험_있음.2020=X2020.1, 결제경험_없음.2020=X2020.2)
+moneydata <- moneydata[-1,]
+
+View(moneydata)
+```
+
+#### 3) 필요한 데이터-가구원 수 뽑아오기 
+```{r warning = FALSE, message = FALSE}
+### 변수들 중 필요한 변수를 골라 새롭게 데이터를 지정
+family.money <- subset(moneydata, cat1 == '가구원수1')
+family.money
+
+family.money1 <- family.money %>% select(cat2, 결제경험_있음.2019, 결제경험_있음.2020)
+family.money1
+
+### 고른 데이터를 long 형태로 변경해주기
+people1 <- subset(family.money1, cat2 == '1인가구')
+people2 <- subset(family.money1, cat2 == '2인가구')
+people3 <- subset(family.money1, cat2 == '3인이상가구')
+
+long.people1 <- people1 %>% gather(key = years, value = pop)
+long.people2 <- people2 %>% gather(key = years, value = pop)
+long.people3 <- people3 %>% gather(key = years, value = pop)
+
+```
+
+#### 4) 시각화
+```{r warning = FALSE, message = FALSE}
+par(mfrow=c(1,1)) # 하나의 그래프만 나타내기
+plot(long.people1$pop,type='o',xlim=c(1,4), ylim=c(0,30),xaxt = "n",xlab = 'year', ylab='percent',col=1)
+axis(1, at=2:3, labels = c('2019', '2020')) # 눈금 년도로 이름지어주기
+lines(long.people2$pop,type='o',col=2,pch=0)
+lines(long.people3$pop,type='o',col=3,pch=2) # 그래프 전부 겹쳐주기
+
+legend("topright", c("1인가구", "2인가구", "3인이상가구"), 
+       col = c(1,2,3),lty=1) # 범례 만들어주기
+```
+
+#### 5) 결론
+
+- OTT는 한 번 구독하면 여러 명  공유 가능하기에 1명만 구독하면 다른 사람들도 무료로 볼 수 있다. 그러기에 가구원이 늘어날수록 1명이 구독후 다른 사람은 무료로 보는 경우가 많다. 하지만  1인가구는 자신이 직접 구독을 해야 서비스를 이용할 수 있다. 
+
+- 결과적으로 공유가 가능한 다가구 가족보다 1인 가구의 유료 구독 비율이 가장 높았고 가구수가 많아질수록 공유하는 사람이 늘어나 유료 구독 비율은 줄어들었다. 이로써 OTT서비스는 10대에서 39세의 독신층을 겨냥한 상품을 판매하는 것이 가장 이익이 많이 날 것임을 예상할 수 있다.
+
+### (4) 소득수준에 따라 OTT를 구독하는 비율이 차이가 날 것인가?
+
+- 예상 : 소득 수준이 낮을수록 구독 비율이 낮을 것이다.
+
+#### 1) 전처리
+```{r warning = FALSE, message = FALSE}
+### 위에서 분류한 income을 가지고 데이터 분석
+income.y <-  income %>% select(cat2, 시청경험_있음.2019, 시청경험_있음.2020, 시청경험_있음.2021)
+View(income.y)
+```
+```{r warning = FALSE, message = FALSE}
+###각 소득별로 새로운 범주 만들어주기
+
+income1 <- subset(income.y, cat2 == '소득없음')
+income2 <- subset(income.y, cat2 == '50만원미만')
+income3 <- subset(income.y, cat2 == '50-100만원미만')
+income4 <- subset(income.y, cat2 == '100-200만원미만')
+income5 <- subset(income.y, cat2 == '200-300만원미만')
+income6 <- subset(income.y, cat2 == '300-400만원미만')
+income7 <- subset(income.y, cat2 == '400-500만원미만')
+income8 <- subset(income.y, cat2 == '500만원이상')
+```
+```{r warning = FALSE, message = FALSE}
+### long 형태로 바꿔주기
+long.income1 <- income1 %>% gather(key = years, value = pop)
+long.income2 <- income2 %>% gather(key = years, value = pop)
+long.income3 <- income3 %>% gather(key = years, value = pop)
+long.income4 <- income4 %>% gather(key = years, value = pop)
+long.income5 <- income5 %>% gather(key = years, value = pop)
+long.income6 <- income6 %>% gather(key = years, value = pop)
+long.income7 <- income7 %>% gather(key = years, value = pop)
+long.income8 <- income8 %>% gather(key = years, value = pop)
+
+```
+
+#### 2) 데이터 시각화
+```{r warning = FALSE, message = FALSE}
+###그래프 겹쳐서 그려주기
+par(mfrow=c(1,1))
+plot(long.income1$pop,type='o',xlim=c(2,4), ylim=c(0,100),xaxt = "n",xlab = 'year', ylab='percent',col=1)
+axis(1, at=2:4, labels = c('2019', '2020', '2021'))
+lines(long.income2$pop,type='o',col=2,pch=0)
+lines(long.income3$pop,type='o',col=3,pch=2)
+lines(long.income4$pop,type='o',col=4,pch=3)
+lines(long.income5$pop,type='o',col=5,pch=4)
+lines(long.income6$pop,type='o',col=6,pch=5)
+lines(long.income7$pop,type='o',col=7,pch=6)
+lines(long.income8$pop,type='o',col=8,pch=7)
+
+#범례 추가
+legend("bottomright", c("소득없음", "50만원미만", "50-100만원미만", "100-200만원미만", "200-300만원미만", "300-400만원미만", "400-500만원미만", "500만원이상"), 
+       col = c(1,2,3,4,5,6,7,8),lty=1, cex=0.5)
+```
+
+#### 3)결과 분석
+- 대체적으로 소득이 낮을수록 구독률이 떨어졌음.
+- 소득없음이 비율이 높은것은 이곳에 속한 사람은 대부분 만 10대 미만이거나 10대-19세의 나이대기 때문. 
+
+### (6) 평균이용시간과 평균이용빈도는 나이대에 따라 관련이 있을 것인가?
+#### 1) 데이터 파일 불러오기
+```{r warning = FALSE, message = FALSE}
+mydata3 <- read.csv('C:/Kimsunwoo/teamprojectdata/ksw/(미디어 통계포털 - KISDI STAT)OTT서비스_이용시간.csv', header=T)
+
+mydata4 <- read.csv('C:/Kimsunwoo/teamprojectdata/ksw/(미디어 통계포털 - KISDI STAT)OTT서비스_이용빈도.csv', header=T)
+
+```
+
+#### 2) 평균 이용시간 전처리
+```{r warning = FALSE, message = FALSE}
+# 파일 복사 데이터 만들기
+time <- mydata3
+
+# 컬럼 이름 재조정 및 필요없는 행 지우기
+time <- rename(time, cat1=구분별.1., cat2=구분별.2., 총인구.2020=X2020, '5m-Under'=X2020.1, '5m-10m'=X2020.2, '10m-30m'=X2020.3, '30m-1h'=X2020.4, '1h-2h'=X2020.5, '2h-Up'=X2020.6)
+time <- time[-1,]
+
+#필요한 연령 카테고리만 빼오기
+ages <- subset(time, cat1 == '연령')
+
+# 각 이용시간별 새로운 범주 만들어주기
+ages.2020 <- ages %>% select(cat2 ,'5m-Under', '5m-10m', '10m-30m', '30m-1h', '1h-2h', '2h-Up')
+
+#필요한 나이대(만10세-39세)만 골라오기 및 범주화
+X <- ages.2020[(2:4),]
+
+ages1 <- subset(ages.2020, cat2 == '만10-19세')
+ages1 <- ages1 %>% select('5m-Under', '5m-10m', '10m-30m', '30m-1h', '1h-2h', '2h-Up')
+ages2 <- subset(ages.2020, cat2 == '만20-29세')
+ages2 <- ages2 %>% select('5m-Under', '5m-10m', '10m-30m', '30m-1h', '1h-2h', '2h-Up')
+ages3 <- subset(ages.2020, cat2 == '만30-39세')
+ages3 <- ages3 %>% select('5m-Under', '5m-10m', '10m-30m', '30m-1h', '1h-2h', '2h-Up')
+
+# long형으로 바꿔주기
+long.ages1 <- ages1 %>% gather(key = times, value = percent)
+long.ages2 <- ages2 %>% gather(key = times, value = percent)
+long.ages3 <- ages3 %>% gather(key = times, value = percent)
+
+
+```
+
+#### 3) 평균 이용시간 시각화
+```{r warning = FALSE, message = FALSE}
+# 그래프 중 많은 비율 두 개에 검은색 넣어주기
+color <- c('5m-Under'='#999999', '5m-10m'='#999999', '10m-30m'='#000000', '30m-1h'='#000000', '1h-2h'='#999999', '2h-Up'='#999999')
+
+color1 <- c('5m-Under'='#999999', '5m-10m'='#999999', '10m-30m'='#999999', '30m-1h'='#000000', '1h-2h'='#000000', '2h-Up'='#999999')
+
+#막대 그래프로 각각 비율 나타내주기, x축 눈금 이름 90도로 조정, 배경 하얗게 
+a <- ggplot(long.ages1, aes(times, percent)) + xlab("만10-19세") + geom_col(fill=color)+ scale_fill_manual(values=color) +
+  theme(axis.text.x=element_text(angle=90, hjust=1)) + 
+  scale_x_discrete(limits = c('5m-Under', '5m-10m', '10m-30m', '30m-1h', '1h-2h', '2h-Up')) + theme_bw() 
+
+b <- ggplot(long.ages2, aes(times, percent))+ xlab("만20-29세") + geom_col(fill=color1)+
+  scale_fill_manual(values=color)+
+  theme(axis.text.x=element_text(angle=90, hjust=1))+ 
+  scale_x_discrete(limits = c('5m-Under', '5m-10m', '10m-30m', '30m-1h', '1h-2h', '2h-Up'))+ theme_bw()
+
+c <- ggplot(long.ages3, aes(times, percent)) + xlab("만30-39세") + geom_col(fill=color)+
+  scale_fill_manual(values=color)+
+  theme(axis.text.x=element_text(angle=90, hjust=1))+ 
+  scale_x_discrete(limits = c('5m-Under', '5m-10m', '10m-30m', '30m-1h', '1h-2h', '2h-Up'))+ theme_bw()
+
+
+#묶어서 한 화면에 나타내기
+grid.arrange(a,b,c, nrow=2, ncol=2)
+
+```
+
+#### 4) 빈도수 전처리
+```{r warning = FALSE, message = FALSE}
+# 파일 복사 데이터 만들기
+many <- mydata4
+
+# 컬럼 이름 재조정 및 필요없는 행 지우기
+many <- rename(many,cat1=구분별.1., cat2=구분별.2., population=X2020, 'manytimes.day'=X2020.1, 'one.day'=X2020.2, 'week.5-7'=X2020.3, 'week.3-4'=X2020.4, 'week1-2'=X2020.5, 'month.1-3'=X2020.6,'month.U1'=X2020.7, 'year.1'=X2020.8)
+many <- many[-1,]
+
+# 필요한 연령 카테고리만 빼오기
+
+m.ages <- subset(many, cat1 == '연령')
+
+# 각 빈도수 별 새로운 범주 만들어주기
+m.ages.2020 <- m.ages %>% select(cat2 ,'manytimes.day', 'one.day', 'week.5-7', 'week.3-4', 'week1-2', 'month.1-3','month.U1', 'year.1')
+
+#필요한 나이대(만10세-39세)만 골라오기 및 범주화
+Y <- m.ages.2020[(2:4),]
+
+m.ages1 <- subset(m.ages.2020, cat2 == '만10-19세')
+m.ages1 <- m.ages1 %>% select('manytimes.day', 'one.day', 'week.5-7', 'week.3-4', 'week1-2', 'month.1-3','month.U1', 'year.1')
+m.ages2 <- subset(m.ages.2020, cat2 == '만20-29세')
+m.ages2 <- m.ages1 %>% select('manytimes.day', 'one.day', 'week.5-7', 'week.3-4', 'week1-2', 'month.1-3','month.U1', 'year.1')
+m.ages3 <- subset(m.ages.2020, cat2 == '만30-39세')
+m.ages3 <- m.ages1 %>% select('manytimes.day', 'one.day', 'week.5-7', 'week.3-4', 'week1-2', 'month.1-3','month.U1', 'year.1')
+
+# long형으로 바꿔주기
+long.m.ages1 <- m.ages1 %>% gather(key = times, value = percent)
+long.m.ages2 <- m.ages2 %>% gather(key = times, value = percent)
+long.m.ages3 <- m.ages3 %>% gather(key = times, value = percent)
+```
+
+#### 5) 빈도수 시각화
+```{r warning = FALSE, message = FALSE}
+# 그래프 중 많은 비율 두 개에 검은색 넣어주기
+color2 <- c('manytimes.day'='#000000', 'one.day'='#000000', 'week.5-7'='#999999', 'week.3-4'='#999999', 'week1-2'='#999999', 'month.1-3'='#999999','month.U1'='#999999', 'year.1'='#999999')
+
+#막대 그래프로 각각 비율 나타내주기, x축 눈금 이름 90도로 조정, 배경 하얗게 
+A <- ggplot(long.m.ages1, aes(times, percent)) + xlab("만10-19세") + geom_col(fill=color2)+ scale_fill_manual(values=color)+
+  theme(axis.text.x=element_text(angle=90, hjust=1)) + 
+  scale_x_discrete(limits = c('manytimes.day', 'one.day', 'week.5-7', 'week.3-4', 'week1-2', 'month.1-3','month.U1', 'year.1'))
+B <- ggplot(long.m.ages2, aes(times, percent)) + xlab("만20-29세") + geom_col(fill=color2)+ scale_fill_manual(values=color)+
+  theme(axis.text.x=element_text(angle=90, hjust=1)) + 
+  scale_x_discrete(limits = c('manytimes.day', 'one.day', 'week.5-7', 'week.3-4', 'week1-2', 'month.1-3','month.U1', 'year.1'))
+C <- ggplot(long.m.ages3, aes(times, percent)) + xlab("만30-39세") + geom_col(fill=color2)+ scale_fill_manual(values=color)+
+  theme(axis.text.x=element_text(angle=90, hjust=1)) + 
+  scale_x_discrete(limits = c('manytimes.day', 'one.day', 'week.5-7', 'week.3-4', 'week1-2', 'month.1-3','month.U1', 'year.1'))
+
+#묶어서 한 화면에 나타내기
+grid.arrange(A,B,C, nrow=2, ncol=2)
+```
+
