@@ -1,0 +1,35 @@
+---
+title: "코로나&영화 상관계수"
+author: "이소민"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# 파이썬에서 전처리한 코로나확진자 수와 영화관객수의 각 월별 데이터를 모은 것!
+# 데이터 설명 : 해당월의 코로나 수가 다음달의 영화관객수에 영향을 미치는지 보기 위함
+#     cov의 20c3m4 - 20년도 3월 코로나확진자 수
+#     mov의 20c3m4 - 20년도 4월 영화 관객 수
+```{r}
+### 데이터 불러오기
+mov <- read.csv("C:/sm/mid_project/data/상관분석을위한movie.csv")
+cov <- read.csv("C:/sm/mid_project/data/상관분석을위한covid.csv")
+
+### 맨앞 인덱스?! 제거
+mov <- mov[2:22]
+cov <- cov[2:22]
+
+View(mov)
+View(cov)
+```
+
+# 상관계수 행렬 구하기
+```{r}
+data_cor <- cor(cov,mov, use="pairwise", method="pearson")
+data_cor
+```
+
+# csv파일로 저장
+```{r}
+write.csv(data_cor, file = "C:/sm/mid_project/data/data_pearson.csv")
+```
+
