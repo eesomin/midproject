@@ -1,0 +1,164 @@
+---
+title: "상관분석"
+author: "이소민"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+### 1. 20년도와 21년도 전체
+
+```{r}
+library(reshape2)
+
+# 데이터 불러오기
+mov <- read.csv("C:/sm/mid_project/data/상관분석을위한movie.csv")
+cov <- read.csv("C:/sm/mid_project/data/상관분석을위한covid.csv")
+
+# 데이터 재구조화 - long형으로 변경
+mov1 <- melt(mov, id.var="X", value.name="movie")
+cov1 <- melt(cov, id.var="X", value.name="covid")
+
+# 코로나는 3월 1일 ~ 12월 30일까지, 영화는 3월 2일 ~ 12월 31일을 사용하므로
+# 코로나는 뒤에서 한개, 영화관객은 앞에서 한개 각각 제거
+cov1 <- cov1[-682,]
+mov1 <- mov1[-1,]
+
+# 필요한 변수만 추출
+cov1 <- cov1[3]
+mov1 <- mov1[3]
+
+# 결측치 확인 - 30일이거나 31일(또는 28일)이므로 각 변수들의 인덱스 수가 맞지 않아 결측치 있음
+is.na(cov1)
+is.na(mov1)
+
+# 결측치 제거
+cov1 <- na.omit(cov1)
+mov1 <- na.omit(mov1)
+
+#데이터 합치기
+data1 <- data.frame(cov1$covid,mov1$movie)
+
+# 상관계수
+cor(data1$cov1.covid,data1$mov1.movie)
+
+# 상관분석
+cor.test(data1$cov1.covid,data1$mov1.movie, mothod="pearson")
+
+plot(mov1.movie ~ cov1.covid, data=data1)
+
+fit1 <- lm(mov1.movie ~ cov1.covid, data=data1)
+fit1
+
+abline(fit1, col="red")
+
+summary(fit1)  
+```
+
+
+### 2. 20년도만 따로!
+```{r}
+library(reshape2)
+
+# 데이터 불러오기
+mov20 <- read.csv("C:/sm/mid_project/data/20년영화상관분석할데이터.csv")
+cov20 <- read.csv("C:/sm/mid_project/data/20년코로나상관분석할데이터.csv")
+
+# 데이터 재구조화 - long형으로 변경
+mov2 <- melt(mov20, id.var="X", value.name="movie")
+cov2 <- melt(cov20, id.var="X", value.name="covid")
+
+# 코로나는 3월 1일 ~ 12월 30일까지, 영화는 3월 2일 ~ 12월 31일을 사용하므로
+# 코로나는 뒤에서 한개, 영화관객은 앞에서 한개 각각 제거
+cov2 <- cov2[-310,]
+mov2 <- mov2[-1,]
+
+# 필요한 변수만 추출
+cov2 <- cov2[3]
+mov2 <- mov2[3]
+
+# 결측치 확인 - 30일이거나 31일(또는 28일)이므로 각 변수들의 인덱스 수가 맞지 않아 결측치 있음
+is.na(cov2)
+is.na(mov2)
+
+# 결측치 제거
+cov2 <- na.omit(cov2)
+mov2 <- na.omit(mov2)
+
+#데이터 합치기
+data2 <- data.frame(cov2$covid,mov2$movie)
+
+# 상관계수
+cor(data2$cov2.covid,data2$mov2.movie)
+
+# 상관분석
+cor.test(data2$cov2.covid,data2$mov2.movie, mothod="pearson")
+
+plot(mov2.movie ~ cov2.covid, data=data2)
+
+fit2 <- lm(mov2.movie ~ cov2.covid, data=data2)
+fit2
+
+abline(fit2, col="red")
+
+summary(fit2)  
+```
+
+
+### 3. 21년도만 따로!
+```{r}
+library(reshape2)
+
+# 데이터 불러오기
+mov21 <- read.csv("C:/sm/mid_project/data/21년영화상관분석할데이터.csv")
+cov21 <- read.csv("C:/sm/mid_project/data/21년코로나상관분석할데이터.csv")
+
+# 데이터 재구조화 - long형으로 변경
+mov3 <- melt(mov21, id.var="X", value.name="movie")
+cov3 <- melt(cov21, id.var="X", value.name="covid")
+
+# 코로나는 3월 1일 ~ 12월 30일까지, 영화는 3월 2일 ~ 12월 31일을 사용하므로
+# 코로나는 뒤에서 한개, 영화관객은 앞에서 한개 각각 제거
+cov3 <- cov3[-372,]
+mov3 <- mov3[-1,]
+
+# 필요한 변수만 추출
+cov3 <- cov3[3]
+mov3 <- mov3[3]
+
+# 결측치 확인 - 30일이거나 31일(또는 28일)이므로 각 변수들의 인덱스 수가 맞지 않아 결측치 있음
+is.na(cov3)
+is.na(mov3)
+
+# 결측치 제거
+cov3 <- na.omit(cov3)
+mov3 <- na.omit(mov3)
+
+#데이터 합치기
+data3 <- data.frame(cov3$covid,mov3$movie)
+
+# 상관계수
+cor(data3$cov3.covid,data3$mov3.movie)
+
+# 상관분석
+cor.test(data3$cov3.covid,data3$mov3.movie, mothod="pearson")
+
+plot(mov3.movie ~ cov3.covid, data=data3)
+
+fit3 <- lm(mov3.movie ~ cov3.covid, data=data3)
+fit3
+
+abline(fit3, col="red")
+
+summary(fit3)  
+```
+
+
+# 20년도 보다 21년도에 사람들이 규제를 잘 안따랐다 - 지들 멋대로;;
+# 21.4.1부터 확진자 동선 안내 재난 문자 중지
+# 21.2.26 정도부터 백신 접종 시작
+# 워드클라우드로 20년도와 21년도의 코로나에 대한 사람들의 인식? 반응 보여주기!! 되면 좋겠다
+#     20년도는 규제좀 지키자 이런거, 21년도는 이제 못참겠다;;;;
+
+
+
+
