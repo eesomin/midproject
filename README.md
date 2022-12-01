@@ -45,7 +45,7 @@ OTT 플랫폼/컨텐츠 이용 패턴 및 이용률에 대한 탐색과 영화�
 ### 2-1. OTT 서비스 이용/ 유저 분석
 
 
-<img src="https://user-images.githubusercontent.com/37919866/204973581-ea4f4981-1834-409b-b64d-eaa1fdf6b00e.png"  width="400" height="350">         <img src="https://user-images.githubusercontent.com/37919866/204973587-aa00f27a-2b2c-4b63-9067-43db3e90ac4c.png"  width="400" height="350">
+<img src="https://user-images.githubusercontent.com/37919866/204973581-ea4f4981-1834-409b-b64d-eaa1fdf6b00e.png"  width="300" height="350">      <img src="https://user-images.githubusercontent.com/37919866/204973587-aa00f27a-2b2c-4b63-9067-43db3e90ac4c.png"  width="300" height="350">
 
 
 2020년과 2021년 전연령에 걸쳐 이용경험 증가를 보이고 2018 년도 잠시 주춤했던 OTT 플랫폼 앱 이용률도 2019년을 시작으로 눈에띄게 증가 했음을 확인할 수 있음
@@ -60,7 +60,7 @@ OTT 플랫폼/컨텐츠 이용 패턴 및 이용률에 대한 탐색과 영화�
 OTT 이용이 증가한것을 데이터를 통해 확인해 봤다. 그렇다면 반대로 코로나로 인해 운영에 타격받았을 영화관은 실제로 어떠한가?
 
 
-<img src="https://user-images.githubusercontent.com/37919866/204973700-d304f8cb-ad74-4c97-8e09-e1db1e872a5a.png"  width="400" height="350">         ![노션 7](https://user-images.githubusercontent.com/37919866/204973712-fc758288-970e-4e91-bbff-2bfa355f71fc.png)
+<img src="https://user-images.githubusercontent.com/37919866/204973700-d304f8cb-ad74-4c97-8e09-e1db1e872a5a.png"  width="300" height="350">      ![노션 7](https://user-images.githubusercontent.com/37919866/204973712-fc758288-970e-4e91-bbff-2bfa355f71fc.png)
 
 
 2020년을 기준으로 관람객 및 매출액이 급감한것을 확인할수 있다. 
@@ -79,7 +79,7 @@ OTT 이용이 증가한것을 데이터를 통해 확인해 봤다. 그렇다면
 코로나의 영향을 코로나의 확진자수로 확인할 수 있기때문에 코로나의 확진자 수가 증가율이 실제로 영화관 괌람객과 얼마나 상관이 있는가 상관관계 분석을 통해 알아봄
 
 
-<img src="https://user-images.githubusercontent.com/37919866/204973753-2c9e1d3e-12c9-48ef-aaff-c4901064b816.png"  width="400" height="350">                 ![노션 11](https://user-images.githubusercontent.com/37919866/204973761-297c22a4-3e4f-4d83-8d31-6dbef0c03ae8.png)
+<img src="https://user-images.githubusercontent.com/37919866/204973753-2c9e1d3e-12c9-48ef-aaff-c4901064b816.png"  width="300" height="350">         ![노션 11](https://user-images.githubusercontent.com/37919866/204973761-297c22a4-3e4f-4d83-8d31-6dbef0c03ae8.png)
 
 
 시각화를 통해 확진자와 영화관 관람객은 같은 달 서로 영향을 끼치는것이 아니라 지난달의 확진자수의 증감이 이번달 영화관 이용에 영향을 준다는 것을 확인, 즉 지난달 확진자수가 많으면 이에 대한 영향은 다음달 영화관 이용이 감소될 것이라고 추정 
@@ -112,7 +112,7 @@ OTT 이용이 증가한것을 데이터를 통해 확인해 봤다. 그렇다면
 영화관 상영이 감소하면서 영화시장이 전체적으로 어려워 졌는데 이러한 현황이 OTT 플랫폼의 영화 콘텐츠 이용율 증가에 어떤 상관관계를 보일까 상관관계 분석을 통해 알아봄
 
 
-<img src="https://user-images.githubusercontent.com/37919866/204973981-bc72fb0c-0870-4d52-a7ed-6c538ec83709.png"  width="400" height="350">  <img src="https://user-images.githubusercontent.com/37919866/204973933-723afcc0-3bbd-495d-9908-a61ba22d2bef.png"  width="400" height="350">
+<img src="https://user-images.githubusercontent.com/37919866/204973981-bc72fb0c-0870-4d52-a7ed-6c538ec83709.png"  width="300" height="350">  <img src="https://user-images.githubusercontent.com/37919866/204973933-723afcc0-3bbd-495d-9908-a61ba22d2bef.png"  width="300" height="350">
 
 OTT 영화 콘텐츠를 이용하는 유저의 연령대를 살펴보면 10대 미만 단위와 70대 이상 단위가 타 연령대에 비해 현저하게 적기때문에 이를 제외, 연령별 OTT 영화시청 증감률과 영화관 이용 증감률 상관관계 분석 진행, P-VALUE 0.45의 음의 상관관계를 보이는 것으로 나타났다.
 
