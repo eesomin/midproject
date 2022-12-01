@@ -51,14 +51,14 @@ OTT 플랫폼/컨텐츠 이용 패턴 및 이용률에 대한 탐색과 영화�
 2020년과 2021년 전연령에 걸쳐 이용경험 증가를 보이고 2018 년도 잠시 주춤했던 OTT 플랫폼 앱 이용률도 2019년을 시작으로 눈에띄게 증가 했음을 확인할 수 있음
 
 
-![노션5](https://user-images.githubusercontent.com/37919866/204973653-7930a173-c7a3-445e-a000-d564d316544d.png)  <img src="https://user-images.githubusercontent.com/37919866/204973661-bc33bc89-816d-48af-aa82-c7a690eea961.png"  width="350" height="350"> 
+<img src="https://user-images.githubusercontent.com/37919866/204973653-7930a173-c7a3-445e-a000-d564d316544d.png"  width="400" height="350"> <img src="https://user-images.githubusercontent.com/37919866/204973661-bc33bc89-816d-48af-aa82-c7a690eea961.png"  width="350" height="400"> 
 
 2019년에 비해 2020년도의 OTT 유료결제율이 높고 특히나 이용층은 2030세대로 나타났으며, 소득수준별 OTT 이용경험으로 봤을때 소득수준이 없는 단위도 비율이 높은것으로 봐서, 미성년층의 이용률 또한 높을것으로 추정할 수 있다.
 
 OTT 이용이 증가한것을 데이터를 통해 확인해 봤다. 그렇다면 반대로 코로나로 인해 운영에 타격받았을 영화관은 실제로 어떠한가?
 
 
-<img src="https://user-images.githubusercontent.com/37919866/204973700-d304f8cb-ad74-4c97-8e09-e1db1e872a5a.png"  width="400" height="350">    <img src="https://user-images.githubusercontent.com/37919866/204973712-fc758288-970e-4e91-bbff-2bfa355f71fc.png"  width="300" height="350"> 
+<img src="https://user-images.githubusercontent.com/37919866/204973700-d304f8cb-ad74-4c97-8e09-e1db1e872a5a.png"  width="500" height="350">    <img src="https://user-images.githubusercontent.com/37919866/204973712-fc758288-970e-4e91-bbff-2bfa355f71fc.png"  width="400" height="350"> 
 
 
 
