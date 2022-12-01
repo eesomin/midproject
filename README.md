@@ -58,7 +58,7 @@ OTT 플랫폼/컨텐츠 이용 패턴 및 이용률에 대한 탐색과 영화�
 OTT 이용이 증가한것을 데이터를 통해 확인해 봤다. 그렇다면 반대로 코로나로 인해 운영에 타격받았을 영화관은 실제로 어떠한가?
 
 
-<img src="https://user-images.githubusercontent.com/37919866/204973700-d304f8cb-ad74-4c97-8e09-e1db1e872a5a.png"  width="500" height="350">    <img src="https://user-images.githubusercontent.com/37919866/204973712-fc758288-970e-4e91-bbff-2bfa355f71fc.png"  width="400" height="350"> 
+<img src="https://user-images.githubusercontent.com/37919866/204973700-d304f8cb-ad74-4c97-8e09-e1db1e872a5a.png"  width="400" height="350">    <img src="https://user-images.githubusercontent.com/37919866/204973712-fc758288-970e-4e91-bbff-2bfa355f71fc.png"  width="400" height="350"> 
 
 
 
