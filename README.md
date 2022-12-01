@@ -39,17 +39,21 @@ OTT 플랫폼/컨텐츠 이용 패턴 및 이용률에 대한 탐색과 영화�
 
 ![노션1](https://user-images.githubusercontent.com/37919866/204973494-149d6324-54c5-4a11-a842-bb24b377ca6c.png)
 
+
 ## (2) 본론
 
 ### 2-1. OTT 서비스 이용/ 유저 분석
+
 
 <img src="https://user-images.githubusercontent.com/37919866/204973581-ea4f4981-1834-409b-b64d-eaa1fdf6b00e.png"  width="400" height="350">         <img src="https://user-images.githubusercontent.com/37919866/204973587-aa00f27a-2b2c-4b63-9067-43db3e90ac4c.png"  width="400" height="350">
 
 
 2020년과 2021년 전연령에 걸쳐 이용경험 증가를 보이고 2018 년도 잠시 주춤했던 OTT 플랫폼 앱 이용률도 2019년을 시작으로 눈에띄게 증가 했음을 확인할 수 있음
 
+
 ![노션5](https://user-images.githubusercontent.com/37919866/204973653-7930a173-c7a3-445e-a000-d564d316544d.png)
 ![노션6](https://user-images.githubusercontent.com/37919866/204973661-bc33bc89-816d-48af-aa82-c7a690eea961.png)
+
 
 2019년에 비해 2020년도의 OTT 유료결제율이 높고 특히나 이용층은 2030세대로 나타났으며, 소득수준별 OTT 이용경험으로 봤을때 소득수준이 없는 단위도 비율이 높은것으로 봐서, 미성년층의 이용률 또한 높을것으로 추정할 수 있다.
 
@@ -74,18 +78,21 @@ OTT 이용이 증가한것을 데이터를 통해 확인해 봤다. 그렇다면
 
 코로나의 영향을 코로나의 확진자수로 확인할 수 있기때문에 코로나의 확진자 수가 증가율이 실제로 영화관 괌람객과 얼마나 상관이 있는가 상관관계 분석을 통해 알아봄
 
-![노션 10](https://user-images.githubusercontent.com/37919866/204973753-2c9e1d3e-12c9-48ef-aaff-c4901064b816.png)
-![노션 11](https://user-images.githubusercontent.com/37919866/204973761-297c22a4-3e4f-4d83-8d31-6dbef0c03ae8.png)
+
+<img src="https://user-images.githubusercontent.com/37919866/204973753-2c9e1d3e-12c9-48ef-aaff-c4901064b816.png"  width="400" height="350">                 ![노션 11](https://user-images.githubusercontent.com/37919866/204973761-297c22a4-3e4f-4d83-8d31-6dbef0c03ae8.png)
+
 
 시각화를 통해 확진자와 영화관 관람객은 같은 달 서로 영향을 끼치는것이 아니라 지난달의 확진자수의 증감이 이번달 영화관 이용에 영향을 준다는 것을 확인, 즉 지난달 확진자수가 많으면 이에 대한 영향은 다음달 영화관 이용이 감소될 것이라고 추정 
 
-![노션12](https://user-images.githubusercontent.com/37919866/204973797-42161e84-f2ed-43ab-b7cc-f22e80109eaf.png)
+
+<img src="https://user-images.githubusercontent.com/37919866/204973797-42161e84-f2ed-43ab-b7cc-f22e80109eaf.png"  width="400" height="350">
 
 
 2020년도에는 추정대로 약한 상관관계이나 음의 관계, 확진자수가 많을수록 영화관 이용이 감소되는 것을 확인
 
 
-![노션 13](https://user-images.githubusercontent.com/37919866/204973806-318d5adc-54e7-4bbc-8bbb-9ba6eafe46c2.png)
+<img src="https://user-images.githubusercontent.com/37919866/204973806-318d5adc-54e7-4bbc-8bbb-9ba6eafe46c2.png"  width="400" height="350">
+
 
 하지만, 2021년도에는 오히려 양의 상관관계 추정과는 다르게 확진자수가 늘면 영화관 관람객 또한 증가한다고 나타남
 
