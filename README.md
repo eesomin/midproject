@@ -106,9 +106,7 @@ OTT 이용이 증가한것을 데이터를 통해 확인해 봤다. 그렇다면
 
 ![노션15](https://user-images.githubusercontent.com/37919866/204973981-bc72fb0c-0870-4d52-a7ed-6c538ec83709.png)
 
-
-![노션 16](https://user-images.githubusercontent.com/37919866/204973933-723afcc0-3bbd-495d-9908-a61ba22d2bef.png)
-
+<img src="https://user-images.githubusercontent.com/37919866/204973933-723afcc0-3bbd-495d-9908-a61ba22d2bef.png"  width="500" height="370">
 OTT 영화 콘텐츠를 이용하는 유저의 연령대를 살펴보면 10대 미만 단위와 70대 이상 단위가 타 연령대에 비해 현저하게 적기때문에 이를 제외, 연령별 OTT 영화시청 증감률과 영화관 이용 증감률 상관관계 분석 진행, P-VALUE 0.45의 음의 상관관계를 보이는 것으로 나타났다.
 
 ## (3) 결론
